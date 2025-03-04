@@ -21,8 +21,11 @@
         function signUp() {
             let email = document.getElementById("signupEmail").value;
             let password = document.getElementById("signupPassword").value;
+            let name = document.getElementById("signupName").value;
+            let phone = document.getElementById("signupPhone").value;
+            let address = document.getElementById("signupAddress").value;
             
-            if (email && password) {
+            if (email && password && name && phone && address) {
                 localStorage.setItem("user", email);
                 alert("Signup successful! You are now logged in.");
                 checkAuth();
@@ -53,8 +56,11 @@
 
         <div id="authSection">
             <h2>Sign Up</h2>
+            <input type="text" id="signupName" placeholder="Full Name" required>
             <input type="email" id="signupEmail" placeholder="Email" required>
             <input type="password" id="signupPassword" placeholder="Password" required>
+            <input type="tel" id="signupPhone" placeholder="Phone Number" required>
+            <input type="text" id="signupAddress" placeholder="Address" required>
             <button onclick="signUp()">Sign Up</button>
             
             <h2>Sign In</h2>
@@ -64,35 +70,16 @@
         </div>
 
         <div id="welcomeMessage" class="hidden">
-            <h2>Welcome Back!</h2>
             <h2>Book a Dog Sitter</h2>
-            <button onclick="document.getElementById('betaPopup').style.display='block'">Book a Dog Sitter</button>
+            <img src="dog_sitter_graphic.jpg" alt="Dog and Sitter" width="300">
+            <p>Select your dates (at least 1 day in advance):</p>
+            <input type="date" id="bookingDate" min="">
+            <button onclick="window.location.href='https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_URL/viewform'">Book Now</button>
         </div>
         
-        <div id="betaPopup" class="hidden">
-            <p>We are in beta testing. Please choose your locality.</p>
-            <select id="locality" onchange="checkLocality()">
-                <option value="">Select Locality</option>
-                <option value="JP Nagar">JP Nagar</option>
-                <option value="Koramangala">Koramangala</option>
-                <option value="Indiranagar">Indiranagar</option>
-            </select>
-            
-            <div id="bookingForm" class="hidden">
-                <form action="https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_URL/formResponse" method="POST" target="_blank">
-                    <input type="text" name="address" placeholder="Address" required>
-                    <input type="text" name="dogBreed" placeholder="Dog Breed" required>
-                    <input type="number" name="dogAge" placeholder="Dog Age" required>
-                    <input type="datetime-local" name="startTime" required>
-                    <input type="datetime-local" name="endTime" required>
-                    <button type="submit">Submit</button>
-                </form>
-                <p>Your request for a sitter has been noted and notified. Someone will confirm shortly.</p>
-            </div>
-
-            <div id="outOfRangeMessage" class="hidden">
-                <p>Sorry, we are not servicing your area yet. We will let you know once added.</p>
-            </div>
+        <div>
+            <h3>Love dogs? You are a messiah! Be our Dog Sitter and earn SiTAR points.</h3>
+            <button onclick="window.location.href='https://docs.google.com/forms/d/e/YOUR_DOG_SITTER_FORM_URL/viewform'">Be a Dog Sitter</button>
         </div>
     </div>
 </body>

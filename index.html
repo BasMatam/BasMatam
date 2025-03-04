@@ -15,6 +15,7 @@
             if (user) {
                 document.getElementById("welcomeMessage").classList.remove("hidden");
                 document.getElementById("authSection").classList.add("hidden");
+                document.getElementById("signOutButton").classList.remove("hidden");
             }
         }
 
@@ -46,9 +47,23 @@
                 alert("User not found. Please sign up first.");
             }
         }
+
+        function signOut() {
+            localStorage.removeItem("user");
+            alert("You have been signed out.");
+            document.getElementById("welcomeMessage").classList.add("hidden");
+            document.getElementById("authSection").classList.remove("hidden");
+            document.getElementById("signOutButton").classList.add("hidden");
+        }
+
+        function setMinBookingDate() {
+            let today = new Date();
+            today.setDate(today.getDate() + 1);
+            document.getElementById("bookingDate").min = today.toISOString().split('T')[0];
+        }
     </script>
 </head>
-<body onload="checkAuth()">
+<body onload="checkAuth(); setMinBookingDate();">
     <div class="container">
         <h1>Welcome to Dog Sitting Service</h1>
         <p>Go! Live your life while we sit your dog.</p>
@@ -75,6 +90,7 @@
             <p>Select your dates (at least 1 day in advance):</p>
             <input type="date" id="bookingDate" min="">
             <button onclick="window.location.href='https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_URL/viewform'">Book Now</button>
+            <button id="signOutButton" class="hidden" onclick="signOut()">Sign Out</button>
         </div>
         
         <div>

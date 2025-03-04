@@ -28,6 +28,9 @@
             
             if (email && password && name && phone && address) {
                 localStorage.setItem("user", email);
+                localStorage.setItem("name", name);
+                localStorage.setItem("phone", phone);
+                localStorage.setItem("address", address);
                 alert("Signup successful! You are now logged in.");
                 checkAuth();
             } else {
@@ -49,7 +52,7 @@
         }
 
         function signOut() {
-            localStorage.removeItem("user");
+            localStorage.clear();
             alert("You have been signed out.");
             document.getElementById("welcomeMessage").classList.add("hidden");
             document.getElementById("authSection").classList.remove("hidden");
@@ -60,6 +63,24 @@
             let today = new Date();
             today.setDate(today.getDate() + 1);
             document.getElementById("bookingDate").min = today.toISOString().split('T')[0];
+        }
+
+        function bookNow() {
+            let email = localStorage.getItem("user");
+            let name = localStorage.getItem("name");
+            let phone = localStorage.getItem("phone");
+            let address = localStorage.getItem("address");
+            let bookingLink = `https://docs.google.com/forms/d/1xh2SSybW7ObUOVfx1JYIny3tBbNVbDnbIiHSzhiGz4M/prefill?entry.123456=${name}&entry.789012=${email}&entry.345678=${phone}&entry.901234=${address}`;
+            window.location.href = bookingLink;
+        }
+
+        function beDogSitter() {
+            let email = localStorage.getItem("user");
+            let name = localStorage.getItem("name");
+            let phone = localStorage.getItem("phone");
+            let address = localStorage.getItem("address");
+            let sitterLink = `https://docs.google.com/forms/d/e/1FAIpQLSdkc3xeJ-H1Oi0LwleViYW9I4414W54QihVOu6gVVfETQK7Vg/viewform?usp=pp_url&entry.2091908551=${name}&entry.936371092=${phone}&entry.1808109491=${email}&entry.1601160120=${address}`;
+            window.location.href = sitterLink;
         }
     </script>
 </head>
@@ -89,13 +110,13 @@
             <img src="dog_sitter_graphic.jpg" alt="Dog and Sitter" width="300">
             <p>Select your dates (at least 1 day in advance):</p>
             <input type="date" id="bookingDate" min="">
-            <button onclick="window.location.href='https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_URL/viewform'">Book Now</button>
+            <button onclick="bookNow()">Book Now</button>
             <button id="signOutButton" class="hidden" onclick="signOut()">Sign Out</button>
         </div>
         
         <div>
             <h3>Love dogs? You are a messiah! Be our Dog Sitter and earn SiTAR points.</h3>
-            <button onclick="window.location.href='https://docs.google.com/forms/d/e/YOUR_DOG_SITTER_FORM_URL/viewform'">Be a Dog Sitter</button>
+            <button onclick="beDogSitter()">Be a Dog Sitter</button>
         </div>
     </div>
 </body>

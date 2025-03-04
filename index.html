@@ -40,13 +40,33 @@
     </style>
 </head>
 <body>
-    <div class="container" id="signupContainer">
-        <h1>Sign Up</h1>
-        <p>Enter your details to book a dog sitter.</p>
-        <input type="text" id="email" placeholder="Enter Email" required>
-        <input type="text" id="phone" placeholder="Enter Phone Number" required>
-        <button onclick="signup()">Sign Up</button>
-    </div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const email = localStorage.getItem("userEmail");
+        const phone = localStorage.getItem("userPhone");
+
+        if (email && phone) {
+            document.getElementById("signupContainer").style.display = "none";
+            document.getElementById("bookingContainer").style.display = "block";
+        }
+    });
+
+    function signup() {
+        const email = document.getElementById("email").value;
+        const phone = document.getElementById("phone").value;
+
+        if (email && phone) {
+            localStorage.setItem("userEmail", email);
+            localStorage.setItem("userPhone", phone);
+            
+            document.getElementById("signupContainer").style.display = "none";
+            document.getElementById("bookingContainer").style.display = "block";
+        } else {
+            alert("Please enter both email and phone number.");
+        }
+    }
+</script>
+
     
     <div class="container" id="bookingContainer" style="display:none;">
         <h1>Book a Dog Sitter (JP Nagar Beta)</h1>

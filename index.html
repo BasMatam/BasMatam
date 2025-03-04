@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Dog Sitter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: grey;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="signupContainer">
+        <h1>Sign Up</h1>
+        <p>Enter your details to book a dog sitter.</p>
+        <input type="text" id="email" placeholder="Enter Email" required>
+        <input type="text" id="phone" placeholder="Enter Phone Number" required>
+        <button onclick="signup()">Sign Up</button>
+    </div>
+    
+    <div class="container" id="bookingContainer" style="display:none;">
+        <h1>Book a Dog Sitter (JP Nagar Beta)</h1>
+        <img src="dog_sitter.jpg" alt="Dog and Sitter" width="100%">
+        <p>Go! Live your life while we sit your dog.</p>
+        <select id="locality">
+            <option value="">Select Your Locality</option>
+            <option value="JP Nagar">JP Nagar</option>
+            <option value="BTM Layout">BTM Layout</option>
+            <option value="Indiranagar">Indiranagar</option>
+        </select>
+        <button onclick="checkLocality()">Check Availability</button>
+        <p id="localityMessage"></p>
+    </div>
+
+    <div class="container" id="detailsContainer" style="display:none;">
+        <h1>Provide Dog Details</h1>
+        <input type="text" id="address" placeholder="Enter Address" required>
+        <input type="text" id="dogAge" placeholder="Dog Age" required>
+        <input type="text" id="dogBreed" placeholder="Dog Breed" required>
+        <input type="time" id="startTime" required>
+        <input type="time" id="endTime" required>
+        <button onclick="submitBooking()">Submit</button>
+    </div>
+
+    <script>
+        function signup() {
+            let email = document.getElementById("email").value;
+            let phone = document.getElementById("phone").value;
+            if(email && phone) {
+                document.getElementById("signupContainer").style.display = "none";
+                document.getElementById("bookingContainer").style.display = "block";
+            } else {
+                alert("Please enter email and phone number.");
+            }
+        }
+
+        function checkLocality() {
+            let locality = document.getElementById("locality").value;
+            let withinRange = ["JP Nagar", "BTM Layout"].includes(locality);
+            if (withinRange) {
+                document.getElementById("localityMessage").innerText = "We will get you a sitter, please provide your details.";
+                document.getElementById("detailsContainer").style.display = "block";
+            } else {
+                document.getElementById("localityMessage").innerText = "Sorry, we are not servicing your area yet.";
+            }
+        }
+
+        function submitBooking() {
+            let address = document.getElementById("address").value;
+            let dogAge = document.getElementById("dogAge").value;
+            let dogBreed = document.getElementById("dogBreed").value;
+            let startTime = document.getElementById("startTime").value;
+            let endTime = document.getElementById("endTime").value;
+            let emailBody = `Address: ${address}%0ADog Age: ${dogAge}%0ADog Breed: ${dogBreed}%0AStart Time: ${startTime}%0AEnd Time: ${endTime}`;
+            window.location.href = `mailto:hiremathanna089@gmail.com?subject=Dog Sitter Request&body=${emailBody}`;
+            alert("Your request for a sitter has been noted and notified. Someone will confirm shortly.");
+        }
+    </script>
+</body>
+</html>

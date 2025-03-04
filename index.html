@@ -63,14 +63,27 @@
     </div>
 
     <div class="container" id="detailsContainer" style="display:none;">
-        <h1>Provide Dog Details</h1>
-        <input type="text" id="address" placeholder="Enter Address" required>
-        <input type="text" id="dogAge" placeholder="Dog Age" required>
-        <input type="text" id="dogBreed" placeholder="Dog Breed" required>
-        <input type="time" id="startTime" required>
-        <input type="time" id="endTime" required>
-        <button onclick="submitBooking()">Submit</button>
-    </div>
+    <h1>Provide Dog Details</h1>
+    <form action="https://docs.google.com/forms/d/e/1FAIpQLSeDVd00YLfbg8TZgOoecXze2frjoLENAiU8UHU0vPJ45_wJeQ/formResponse" method="POST" target="_blank">
+        <label for="address">Address:</label>
+        <input type="text" name="entry.643165175" id="address" placeholder="Enter Address" required>
+
+        <label for="dogAge">Dog Age:</label>
+        <input type="number" name="entry.616118540" id="dogAge" placeholder="Dog Age" required>
+
+        <label for="dogBreed">Dog Breed:</label>
+        <input type="text" name="entry.1042523963" id="dogBreed" placeholder="Dog Breed" required>
+
+        <label for="startTime">Start Time:</label>
+        <input type="time" name="entry.678930097" id="startTime" required>
+
+        <label for="endTime">End Time:</label>
+        <input type="time" name="entry.1028575598" id="endTime" required>
+
+        <button type="submit">Submit Booking</button>
+    </form>
+</div>
+
 
     <script>
         function signup() {

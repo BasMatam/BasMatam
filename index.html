@@ -37,36 +37,24 @@
             background-color: grey;
             cursor: not-allowed;
         }
+        .sitter-widget {
+            margin-top: 20px;
+            padding: 15px;
+            background: #ffcc00;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const email = localStorage.getItem("userEmail");
-        const phone = localStorage.getItem("userPhone");
-
-        if (email && phone) {
-            document.getElementById("signupContainer").style.display = "none";
-            document.getElementById("bookingContainer").style.display = "block";
-        }
-    });
-
-    function signup() {
-        const email = document.getElementById("email").value;
-        const phone = document.getElementById("phone").value;
-
-        if (email && phone) {
-            localStorage.setItem("userEmail", email);
-            localStorage.setItem("userPhone", phone);
-            
-            document.getElementById("signupContainer").style.display = "none";
-            document.getElementById("bookingContainer").style.display = "block";
-        } else {
-            alert("Please enter both email and phone number.");
-        }
-    }
-</script>
-
+    <div class="container" id="signupContainer">
+        <h1>Sign Up</h1>
+        <p>Enter your details to book a dog sitter.</p>
+        <input type="text" id="email" placeholder="Enter Email" required>
+        <input type="text" id="phone" placeholder="Enter Phone Number" required>
+        <button onclick="signup()">Sign Up</button>
+    </div>
     
     <div class="container" id="bookingContainer" style="display:none;">
         <h1>Book a Dog Sitter (JP Nagar Beta)</h1>
@@ -77,66 +65,69 @@
             <option value="JP Nagar">JP Nagar</option>
             <option value="BTM Layout">BTM Layout</option>
             <option value="Indiranagar">Indiranagar</option>
+            <option value="Koramangala">Koramangala</option>
+            <option value="Whitefield">Whitefield</option>
+            <option value="Electronic City">Electronic City</option>
         </select>
         <button onclick="checkLocality()">Check Availability</button>
         <p id="localityMessage"></p>
     </div>
 
     <div class="container" id="detailsContainer" style="display:none;">
-    <h1>Provide Dog Details</h1>
-    <form action="https://docs.google.com/forms/d/e/1FAIpQLSeDVd00YLfbg8TZgOoecXze2frjoLENAiU8UHU0vPJ45_wJeQ/formResponse" method="POST" target="_blank">
-        <label for="address">Address:</label>
-        <input type="text" name="entry.643165175" id="address" placeholder="Enter Address" required>
+        <h1>Provide Dog Details</h1>
+        <input type="text" id="address" placeholder="Enter Address" required>
+        <input type="text" id="dogAge" placeholder="Dog Age" required>
+        <input type="text" id="dogBreed" placeholder="Dog Breed" required>
+        <input type="time" id="startTime" required>
+        <input type="time" id="endTime" required>
+        <button onclick="submitBooking()">Submit</button>
+    </div>
 
-        <label for="dogAge">Dog Age:</label>
-        <input type="number" name="entry.616118540" id="dogAge" placeholder="Dog Age" required>
-
-        <label for="dogBreed">Dog Breed:</label>
-        <input type="text" name="entry.1042523963" id="dogBreed" placeholder="Dog Breed" required>
-
-        <label for="startTime">Start Time:</label>
-        <input type="time" name="entry.678930097" id="startTime" required>
-
-        <label for="endTime">End Time:</label>
-        <input type="time" name="entry.1028575598" id="endTime" required>
-
-        <button type="submit">Submit Booking</button>
-    </form>
-</div>
-
+    <div class="sitter-widget" onclick="openSitterForm()">
+        <h2>Love dogs? You are a messiah! Be a dog sitter and earn SiTAR points.</h2>
+    </div>
 
     <script>
         function signup() {
-            let email = document.getElementById("email").value;
-            let phone = document.getElementById("phone").value;
-            if(email && phone) {
-                document.getElementById("signupContainer").style.display = "none";
-                document.getElementById("bookingContainer").style.display = "block";
-            } else {
-                alert("Please enter email and phone number.");
-            }
+            document.getElementById("signupContainer").style.display = "none";
+            document.getElementById("bookingContainer").style.display = "block";
         }
 
         function checkLocality() {
             let locality = document.getElementById("locality").value;
-            let withinRange = ["JP Nagar", "BTM Layout"].includes(locality);
-            if (withinRange) {
-                document.getElementById("localityMessage").innerText = "We will get you a sitter, please provide your details.";
+            if (["JP Nagar", "BTM Layout", "Indiranagar"].includes(locality)) {
+                document.getElementById("localityMessage").innerText = "We will get you a sitter! Please enter your details.";
+                document.getElementById("bookingContainer").style.display = "none";
                 document.getElementById("detailsContainer").style.display = "block";
             } else {
-                document.getElementById("localityMessage").innerText = "Sorry, we are not servicing your area yet.";
+                document.getElementById("localityMessage").innerText = "Sorry, we do not service this area yet.";
             }
         }
 
         function submitBooking() {
-            let address = document.getElementById("address").value;
-            let dogAge = document.getElementById("dogAge").value;
-            let dogBreed = document.getElementById("dogBreed").value;
-            let startTime = document.getElementById("startTime").value;
-            let endTime = document.getElementById("endTime").value;
-            let emailBody = `Address: ${address}%0ADog Age: ${dogAge}%0ADog Breed: ${dogBreed}%0AStart Time: ${startTime}%0AEnd Time: ${endTime}`;
-            window.location.href = `mailto:hiremathanna089@gmail.com?subject=Dog Sitter Request&body=${emailBody}`;
-            alert("Your request for a sitter has been noted and notified. Someone will confirm shortly.");
+            let formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeDVd00YLfbg8TZgOoecXze2frjoLENAiU8UHU0vPJ45_wJeQ/formResponse?";
+            let params = {
+                "entry.2091908551": "Test Booking",
+                "entry.936371092": document.getElementById("email").value,
+                "entry.1808109491": document.getElementById("phone").value,
+                "entry.643165175": document.getElementById("address").value,
+                "entry.1042523963": document.getElementById("dogBreed").value,
+                "entry.616118540": document.getElementById("dogAge").value,
+                "entry.1179588707": new Date().toISOString().split('T')[0],
+                "entry.678930097": document.getElementById("startTime").value,
+                "entry.1028575598": document.getElementById("endTime").value
+            };
+
+            let queryString = new URLSearchParams(params).toString();
+            fetch(formUrl + queryString, { method: "POST", mode: "no-cors" })
+                .then(() => alert("Booking submitted!"))
+                .catch(() => alert("Failed to submit."));
+
+            window.location.reload();
+        }
+
+        function openSitterForm() {
+            window.open("https://docs.google.com/forms/d/17XLOBKzTZssC6KJq6l6-GB0WVANVTseHv6WNSu3iulI/viewform", "_blank");
         }
     </script>
 </body>

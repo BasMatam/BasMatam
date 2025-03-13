@@ -1,96 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dog Sitting Service</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        .container { width: 80%; margin: auto; }
-        .hidden { display: none; }
-    </style>
-    <script>
-        function checkAuth() {
-            let user = localStorage.getItem("user");
-            if (user) {
-                document.getElementById("welcomeMessage").classList.remove("hidden");
-                document.getElementById("authSection").classList.add("hidden");
-                document.getElementById("signOutButton").classList.remove("hidden");
-            }
-        }
-
-        function signUp() {
-            let email = document.getElementById("signupEmail").value;
-            let password = document.getElementById("signupPassword").value;
-            let name = document.getElementById("signupName").value;
-            let phone = document.getElementById("signupPhone").value;
-            let address = document.getElementById("signupAddress").value;
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Dog Sitting Service</title>
+      <style>
+         body { font-family: Arial, sans-serif; text-align: center; }
+         .container { width: 80%; margin: auto; }
+         .hidden { display: none; }
+      </style>
+      <script>
+         function checkAuth() {
+             let user = localStorage.getItem("user");
+             if (user) {
+                 document.getElementById("welcomeMessage").classList.remove("hidden");
+                 document.getElementById("authSection").classList.add("hidden");
+                 document.getElementById("signOutButton").classList.remove("hidden");
+             }
+         }
+         
+         function isValidEmail(email) {
+         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+         return emailRegex.test(email);
+         }
+         
+         function isValidIndianPhoneNumber(phone) {
+         const phoneRegex = /^[6789]\d{9}$/;
+         return phoneRegex.test(phone);
+         }
+         
+         function isValidPassword(password) {
+         return password.length >= 8;
+         }
+         
+         function isValidName(name) {
+         return name.trim().length >= 3;
+         }
+         
+         function signUp() {
+             let email = document.getElementById("signupEmail").value;
+             let password = document.getElementById("signupPassword").value;
+             let name = document.getElementById("signupName").value;
+             let phone = document.getElementById("signupPhone").value;
+             let address = document.getElementById("signupAddress").value;
+         
             
-            if (email && password && name && phone && address) {
-                localStorage.setItem("user", email);
-                localStorage.setItem("name", name);
-                localStorage.setItem("phone", phone);
-                localStorage.setItem("address", address);
-                alert("Signup successful! You are now logged in.");
-                checkAuth();
-            } else {
-                alert("Please fill in all fields.");
-            }
-        }
-
-        function signIn() {
-            let email = document.getElementById("signinEmail").value;
-            let password = document.getElementById("signinPassword").value;
+         if (email && !isValidEmail(email)) {
+         alert("please enter a valid Email Id");
+         } else if (phone && !isValidIndianPhoneNumber(phone)) {
+         alert("please enter a valid Phone Number");
+         } else if (password && !isValidPassword(password)) {
+         alert("please enter a password of atleast 8 character length");
+         } else if (name && !isValidName(name)) {
+         alert("please enter a name that is atleast 3 character long");
+         } else if (email && password && name && phone && address) {
+                 localStorage.setItem("user", email);
+                 localStorage.setItem("name", name);
+                 localStorage.setItem("phone", phone);
+                 localStorage.setItem("address", address);
+                 alert("Signup successful! You are now logged in.");
+                 checkAuth();
+             } else {
+                 alert("Please fill in all fields.");
+             }
+         }
+         
+         function signIn() {
+             let email = document.getElementById("signinEmail").value;
+             let password = document.getElementById("signinPassword").value;
             
-            let storedUser = localStorage.getItem("user");
-            if (email === storedUser) {
-                alert("Login successful!");
-                checkAuth();
-            } else {
-                alert("User not found. Please sign up first.");
-            }
-        }
-
-        function signOut() {
-            localStorage.clear();
-            alert("You have been signed out.");
-            document.getElementById("welcomeMessage").classList.add("hidden");
-            document.getElementById("authSection").classList.remove("hidden");
-            document.getElementById("signOutButton").classList.add("hidden");
-        }
-
-        function setMinBookingDate() {
-            let today = new Date();
-            today.setDate(today.getDate() + 1);
-            document.getElementById("bookingDate").min = today.toISOString().split('T')[0];
-        }
-
-        function bookNow() {
-            let email = localStorage.getItem("user");
-            let name = localStorage.getItem("name");
-            let phone = localStorage.getItem("phone");
-            let address = localStorage.getItem("address");
-            let bookingLink = `https://docs.google.com/forms/d/e/1FAIpQLSdyo-BRixOGvQq8BShHAn7luihdqpUcQDddlLiBeM8_Y5QRiw/viewform?usp=sharing?entry.123456=${name}&entry.789012=${email}&entry.345678=${phone}&entry.901234=${address}`;
-            window.location.href = bookingLink;
-        }
-
-        function beDogSitter() {
-            let email = localStorage.getItem("user");
-            let name = localStorage.getItem("name");
-            let phone = localStorage.getItem("phone");
-            let address = localStorage.getItem("address");
-            let sitterLink = `https://docs.google.com/forms/d/e/1FAIpQLSdkc3xeJ-H1Oi0LwleViYW9I4414W54QihVOu6gVVfETQK7Vg/viewform?usp=pp_url&entry.2091908551=${name}&entry.936371092=${phone}&entry.1808109491=${email}&entry.1601160120=${address}`;
-            window.location.href = sitterLink;
-        }
-    </script>
-</head>
-<body onload="checkAuth(); setMinBookingDate();">
-    <div class="container">
-        <h1>Welcome to Dog Sitting Service</h1>
-        <p>Go! Live your life while we sit your dog.</p>
-        <img src="dog_sitter_image.jpg" alt="Dog and Sitter" width="300">
-
-        <div id="authSection">
+             let storedUser = localStorage.getItem("user");
+             if (email === storedUser) {
+                 alert("Login successful!");
+                 checkAuth();
+             } else {
+                 alert("User not found. Please sign up first.");
+             }
+         }
+         
+         function signOut() {
+             localStorage.clear();
+             alert("You have been signed out.");
+             document.getElementById("welcomeMessage").classList.add("hidden");
+             document.getElementById("authSection").classList.remove("hidden");
+             document.getElementById("signOutButton").classList.add("hidden");
+         }
+         
+         function setMinBookingDate() {
+             let today = new Date();
+             today.setDate(today.getDate() + 1);
+             document.getElementById("bookingDate").min = today.toISOString().split('T')[0];
+         }
+         
+         function bookNow() {
+             let email = localStorage.getItem("user");
+             let name = localStorage.getItem("name");
+             let phone = localStorage.getItem("phone");
+             let address = localStorage.getItem("address");
+             let bookingLink = `https://docs.google.com/forms/d/e/1FAIpQLSdyo-BRixOGvQq8BShHAn7luihdqpUcQDddlLiBeM8_Y5QRiw/viewform?usp=sharing?entry.123456=${name}&entry.789012=${email}&entry.345678=${phone}&entry.901234=${address}`;
+             window.location.href = bookingLink;
+         }
+         
+         function beDogSitter() {
+             let email = localStorage.getItem("user");
+             let name = localStorage.getItem("name");
+             let phone = localStorage.getItem("phone");
+             let address = localStorage.getItem("address");
+             let sitterLink = `https://docs.google.com/forms/d/e/1FAIpQLSdkc3xeJ-H1Oi0LwleViYW9I4414W54QihVOu6gVVfETQK7Vg/viewform?usp=pp_url&entry.2091908551=${name}&entry.936371092=${phone}&entry.1808109491=${email}&entry.1601160120=${address}`;
+             window.location.href = sitterLink;
+         }
+      </script>
+   </head>
+   <body onload="checkAuth(); setMinBookingDate();">
+      <div class="container">
+         <h1>Welcome to Dog Sitting Service</h1>
+         <p>Go! Live your life while we sit your dog.</p>
+         <img src="dog_sitter_image.jpg" alt="Dog and Sitter" width="300">
+         <div id="authSection">
             <h2>Sign Up</h2>
             <input type="text" id="signupName" placeholder="Full Name" required>
             <input type="email" id="signupEmail" placeholder="Email" required>
@@ -98,26 +124,23 @@
             <input type="tel" id="signupPhone" placeholder="Phone Number" required>
             <input type="text" id="signupAddress" placeholder="Address" required>
             <button onclick="signUp()">Sign Up</button>
-            
             <h2>Sign In</h2>
             <input type="email" id="signinEmail" placeholder="Email" required>
             <input type="password" id="signinPassword" placeholder="Password" required>
             <button onclick="signIn()">Sign In</button>
-        </div>
-
-        <div id="welcomeMessage" class="hidden">
+         </div>
+         <div id="welcomeMessage" class="hidden">
             <h2>Book a Dog Sitter</h2>
             <img src="dog_sitter_graphic.jpg" alt="Dog and Sitter" width="300">
             <p>Select your dates (at least 1 day in advance):</p>
             <input type="date" id="bookingDate" min="">
             <button onclick="bookNow()">Book Now</button>
             <button id="signOutButton" class="hidden" onclick="signOut()">Sign Out</button>
-        </div>
-        
-        <div>
+         </div>
+         <div>
             <h3>Love dogs? You are a messiah! Be our Dog Sitter and earn SiTAR points.</h3>
             <button onclick="beDogSitter()">Be a Dog Sitter</button>
-        </div>
-    </div>
-</body>
+         </div>
+      </div>
+   </body>
 </html>
